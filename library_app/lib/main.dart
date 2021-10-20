@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const MyHomePage(title: 'Personal Library App'),
+      home: const MyHomePage(title: 'Your Personal Library'),
     );
   }
 }
@@ -36,61 +36,21 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // Returns the home page and a navigation menu
     return Scaffold(
-      appBar: AppBar(
-        primary: true,
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(icon: const Icon(Icons.search), onPressed: () {})
-        ],
-      ),
-      drawer: Drawer(
-          child: ListView(
-        padding: EdgeInsets.zero,
-        children: const <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.teal,
-            ),
-            child: Text(
-              "Menu",
-              style: TextStyle(
-                color: Colors.pinkAccent,
-                fontSize: 18,
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text("Add New Book"),
-          ),
-          ListTile(title: Text("Price Checker")),
-        ],
-      )),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+        appBar: AppBar(
+          primary: true,
+          title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(onPressed: () {}, icon: const Icon(Icons.attach_money)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
         ),
-      ),
-    );
+        body: const Center(
+          child: Text('This is where the book list will be.'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.library_add),
+          backgroundColor: Colors.pinkAccent,
+        ));
   }
 }
