@@ -17,6 +17,8 @@ class MyApp extends StatefulWidget {
 // App state to enable navigation
 class _MyAppState extends State<MyApp> {
   bool isHome = true;
+  bool comparePrice = false;
+  bool selectCover = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +32,29 @@ class _MyAppState extends State<MyApp> {
             MaterialPage(
               child: MyHomePage(
                 title: 'Personal Library',
-                setHomeScreen: (screenValue) {
+                setScreen: (homeScreen, priceScreen, imageScreen) {
                   setState(() {
-                    isHome = screenValue;
+                    isHome = homeScreen;
+                    comparePrice = priceScreen;
+                    selectCover = imageScreen;
                   });
                 },
               ),
             ),
-            if (isHome == false) const MaterialPage(child: PriceComparisson())
+            if (comparePrice == true)
+              const MaterialPage(
+                  child: PriceComparisson(
+                title: 'Compare Book Prices',
+              )),
+            if (selectCover == true)
+              const MaterialPage(
+                  child: BookCovers(title: 'Select A Book Cover')),
           ],
           onPopPage: (route, result) {
             bool popStatus = route.didPop(result);
             if (popStatus == true) {
+              comparePrice = false;
+              selectCover = false;
               isHome = true;
             }
             return isHome;
@@ -53,9 +66,9 @@ class _MyAppState extends State<MyApp> {
 // The home page of the application.
 class MyHomePage extends StatefulWidget {
   final String title;
-  final Function setHomeScreen;
+  final Function setScreen;
 
-  const MyHomePage({Key? key, required this.title, required this.setHomeScreen})
+  const MyHomePage({Key? key, required this.title, required this.setScreen})
       : super(key: key);
 
   @override
@@ -80,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             onPressed: () => setState(() {
               _PriceComparissonState;
-              widget.setHomeScreen(false);
+              widget.setScreen(false, true, false);
             }),
             icon: const Icon(Icons.attach_money),
             iconSize: 25,
@@ -102,8 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
+                  // Will be image widget eventually
                   const Placeholder(
-                    color: Colors.orange,
+                    color: Colors.red,
                     fallbackHeight: 120,
                     fallbackWidth: 120,
                   ),
@@ -138,7 +152,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () => setState(() {
+                                  _BookCoversState;
+                                  widget.setScreen(false, false, true);
+                                }),
                             icon: const Icon(
                               Icons.photo_rounded,
                               color: Colors.pinkAccent,
@@ -167,7 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // Price Comparisson Page
 class PriceComparisson extends StatefulWidget {
-  const PriceComparisson({Key? key}) : super(key: key);
+  final String title;
+
+  const PriceComparisson({Key? key, required this.title}) : super(key: key);
 
   @override
   State<PriceComparisson> createState() => _PriceComparissonState();
@@ -178,11 +197,12 @@ class _PriceComparissonState extends State<PriceComparisson> {
   Widget build(BuildContext context) {
     // Returns the price comparisson page
     return Scaffold(
-        appBar: AppBar(
-          primary: true,
-          title: const Text('Price Comparisson Page'),
-        ),
-        body: const TextInputCompare());
+      appBar: AppBar(
+        primary: true,
+        title: Text(widget.title),
+      ),
+      body: const TextInputCompare(),
+    );
   }
 }
 
@@ -271,6 +291,44 @@ class _TextInputCompare extends State<TextInputCompare> {
         ),
         const Divider(color: Colors.indigo, thickness: 2),
       ],
+    );
+  }
+}
+
+// Widget to see a grid of book cover selections
+
+class BookCovers extends StatefulWidget {
+  final String title;
+  const BookCovers({Key? key, required this.title}) : super(key: key);
+
+  @override
+  _BookCoversState createState() => _BookCoversState();
+}
+
+class _BookCoversState extends State<BookCovers> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        primary: true,
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(10),
+        color: Colors.white,
+        child: GridView.count(
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          crossAxisCount: 3,
+          children: List.generate(15, (int index) {
+            return const Placeholder(
+              color: Colors.red,
+              fallbackHeight: 100,
+              fallbackWidth: 100,
+            );
+          }),
+        ),
+      ),
     );
   }
 }
