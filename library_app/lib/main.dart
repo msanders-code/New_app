@@ -76,6 +76,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> titles = [
+    'The Hobbit',
+    '1984',
+    'My Antonia',
+    'Atlas Shrugged',
+    'Hood'
+  ];
+  List<String> authors = [
+    'J.R.R. Tolkein',
+    'George Orwell',
+    'Willa Cather',
+    'Ayn Rand',
+    'Stephen R. Lawhead'
+  ];
   @override
   Widget build(BuildContext context) {
     // Returns the home page
@@ -115,35 +129,36 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
-                  // Will be image widget eventually
-                  const Placeholder(
-                    color: Colors.red,
-                    fallbackHeight: 120,
-                    fallbackWidth: 120,
+                  const Card(
+                    child: Image(
+                      image: AssetImage('images/noImage.jpg'),
+                      width: 120,
+                      height: 120,
+                    ),
                   ),
                   Container(
                     child: Center(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Book Title #${index + 1}',
+                            Text(titles[index],
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                     color: Colors.black87,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold)),
                             Text(
-                              'Author #${index + 1}',
+                              authors[index],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w400),
                             ),
                           ]),
                     ),
                     color: Colors.transparent,
-                    padding: const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(12),
                   ),
                   Container(
                     color: Colors.transparent,
@@ -159,12 +174,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             icon: const Icon(
                               Icons.photo_rounded,
                               color: Colors.pinkAccent,
-                              size: 30,
+                              size: 25,
                             )),
                         IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.delete_rounded,
-                                color: Colors.pinkAccent, size: 30)),
+                                color: Colors.pinkAccent, size: 25)),
                       ],
                     ),
                   ),
@@ -217,7 +232,8 @@ class _TextInputCompare extends State<TextInputCompare> {
   final TextEditingController _controller = TextEditingController(
     text: '',
   );
-  String _value = ''; // Used to store value from user input
+  String _firstValue = '0.00'; // Used to store value from user input
+  String _secondValue = '0.00';
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +247,7 @@ class _TextInputCompare extends State<TextInputCompare> {
                 Expanded(
                     child: TextField(
                       autofocus: true,
+                      enableInteractiveSelection: true,
                       controller: _controller,
                       decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.shopping_cart_rounded,
@@ -245,7 +262,14 @@ class _TextInputCompare extends State<TextInputCompare> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      _value = _controller.text;
+                      if (_controller.text ==
+                          'Harry Potter and The Sorcerer\'s Stone') {
+                        _firstValue = '14.99';
+                        _secondValue = '0.00  with a subscription';
+                      } else {
+                        _firstValue = '0.00';
+                        _secondValue = '0.00';
+                      }
                     });
                   },
                   child: const Text('Compare Prices'),
@@ -253,36 +277,36 @@ class _TextInputCompare extends State<TextInputCompare> {
               ],
             ),
             padding: const EdgeInsets.all(3)),
-        const ListTile(
-          title: Text(
+        ListTile(
+          title: const Text(
             'AMAZON.COM',
             style: TextStyle(color: Colors.black54, fontSize: 20),
           ),
           subtitle: Text(
-            '\$ -',
-            style: TextStyle(
+            '\$$_firstValue',
+            style: const TextStyle(
                 color: Colors.black54,
                 fontStyle: FontStyle.italic,
                 fontSize: 18),
           ),
-          leading:
-              Icon(LineAwesomeIcons.amazon, color: Colors.black87, size: 40),
+          leading: const Icon(LineAwesomeIcons.amazon,
+              color: Colors.black87, size: 40),
           selected: true,
         ),
         const Divider(color: Colors.indigo, thickness: 2),
-        const ListTile(
-          title: Text(
+        ListTile(
+          title: const Text(
             'AUDIBLE.COM',
             style: TextStyle(color: Colors.black54, fontSize: 20),
           ),
           subtitle: Text(
-            '\$ -',
-            style: TextStyle(
+            '\$$_secondValue',
+            style: const TextStyle(
                 color: Colors.black54,
                 fontStyle: FontStyle.italic,
                 fontSize: 18),
           ),
-          leading: Icon(
+          leading: const Icon(
             LineAwesomeIcons.audible,
             color: Colors.black87,
             size: 40,
@@ -306,6 +330,25 @@ class BookCovers extends StatefulWidget {
 }
 
 class _BookCoversState extends State<BookCovers> {
+  List<Widget> image = const [
+    Image(
+        image: AssetImage('images/The_Hobbit_1.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The-Hobbit_2.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The_Hobbit_3.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The_Hobbit_4.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The-Hobbit_5.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The_Hobbit_6.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The_Hobbit_7.jpg'), width: 100, height: 100),
+    Image(
+        image: AssetImage('images/The_Hobbit_8.jpg'), width: 100, height: 100),
+    Image(image: AssetImage('images/The_Hobbit_9.jpg'), width: 100, height: 100)
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -320,12 +363,8 @@ class _BookCoversState extends State<BookCovers> {
           crossAxisSpacing: 8,
           mainAxisSpacing: 8,
           crossAxisCount: 3,
-          children: List.generate(15, (int index) {
-            return const Placeholder(
-              color: Colors.red,
-              fallbackHeight: 100,
-              fallbackWidth: 100,
-            );
+          children: List.generate(image.length, (int index) {
+            return Card(child: image[index]);
           }),
         ),
       ),
