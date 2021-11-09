@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 // Book information entry form
 class BookInfoForm extends StatefulWidget {
-  const BookInfoForm({Key? key}) : super(key: key);
+  final Function setScreen; // Variable used for navigating between pages
+  const BookInfoForm({Key? key, required this.setScreen}) : super(key: key);
   @override
   State<BookInfoForm> createState() => _BookInfoFormState();
 }
@@ -26,6 +27,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
       children: <Widget>[
         // Form field to enter the book's title
         TextFormField(
+            autofocus: true,
             key: _titleFormFieldKey,
             decoration: const InputDecoration(
               labelText: 'Title',
@@ -51,14 +53,18 @@ class _BookInfoFormState extends State<BookInfoForm> {
         Builder(
           builder: (context) {
             return Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 // Submit button - prints the entered values to console for now
                 OutlinedButton(
                     onPressed: () {
                       if (_titleFormFieldKey.currentState!.validate() &&
                           _authorFormFieldKey.currentState!.validate()) {
+                        setState(() {
+                          widget.setScreen(false, true);
+                        });
                         print(_value);
+                        Navigator.pop(context, 'SUCESSFUL');
                       }
                     },
                     child: const Center(
@@ -66,19 +72,11 @@ class _BookInfoFormState extends State<BookInfoForm> {
                             style: TextStyle(
                                 color: Colors.teal,
                                 fontWeight: FontWeight.bold)))),
-                // Reset button - resets the form fields to empty
-                OutlinedButton(
-                    onPressed: () => Form.of(context)?.reset(), // Resets form
-                    child: Center(
-                        child: Text('Reset',
-                            style: TextStyle(
-                                color: Colors.pink[700],
-                                fontWeight: FontWeight.bold)))),
                 // Cancel button - exits the form and resets the values
                 OutlinedButton(
                     onPressed: () {
-                      Form.of(context)?.reset(); // Resets the form fields
-                      Navigator.pop(context); // Exits the form
+                      //Form.of(context)?.reset(); // Resets the form fields
+                      Navigator.pop(context, 'CANCEL');
                     },
                     child: Center(
                         child: Text('Cancel',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/components/book_list.dart';
+import 'package:library_app/dialogs/price_search.dart';
 
 // The home page of the application.
 class MyHomePage extends StatefulWidget {
@@ -31,9 +32,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // Route to price comparisson page
             IconButton(
-              onPressed: () => setState(() {
-                widget.setScreen(false, true);
-              }),
+              onPressed: () async {
+                String result = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return PriceSearchDialog(
+                        setScreen: widget.setScreen,
+                      );
+                    });
+                print(result);
+              },
               icon: const Icon(Icons.attach_money),
               iconSize: 25,
             ),
