@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:library_app/components/text_input_price_list.dart';
+import 'package:library_app/components/price_list.dart';
 
 // Price Comparisson Page
 class PriceComparisson extends StatefulWidget {
@@ -22,7 +22,10 @@ class _PriceComparissonState extends State<PriceComparisson> {
         title: Text(widget.title),
       ),
       // Will be just list of prices and the searched book info.
-      body: const TextInputCompare(),
+      body: const Padding(
+        padding: EdgeInsets.all(15),
+        child: PriceList(),
+      ),
     );
   }
 }

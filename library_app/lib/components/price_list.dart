@@ -4,18 +4,20 @@ import 'price_tile.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 // Retailer list with prices.
-class TextInputCompare extends StatefulWidget {
-  const TextInputCompare({Key? key}) : super(key: key);
+class PriceList extends StatefulWidget {
+  const PriceList({Key? key}) : super(key: key);
   @override
   // Initializes the price list
-  State<TextInputCompare> createState() => _TextInputCompareState();
+  State<PriceList> createState() => _PriceListState();
 }
 
-class _TextInputCompareState extends State<TextInputCompare> {
+class _PriceListState extends State<PriceList> {
   // Watches for the text input and records it
+  /*
   final TextEditingController _controller = TextEditingController(
     text: '',
   );
+  */
   List<String> stores = ['amazon.com', 'audible.com'];
   List<double> prices = [0.00, 0.00];
   List<IconData> packIcons = [
@@ -25,6 +27,7 @@ class _TextInputCompareState extends State<TextInputCompare> {
 
   @override
   Widget build(BuildContext context) {
+    /*
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -57,22 +60,20 @@ class _TextInputCompareState extends State<TextInputCompare> {
               ],
             ),
             padding: const EdgeInsets.all(15)),
-
-        // Builds the list of retailers on the page
-        ListView.separated(
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            return PriceListTile(
-                storeTitle: stores[index],
-                bookPrice: prices[index],
-                storeIcon: packIcons[index]);
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const ListSeparator();
-          },
-          itemCount: stores.length,
-        ),
-      ],
+          */
+    // Builds the list of retailers on the page
+    return ListView.separated(
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return PriceListTile(
+            storeTitle: stores[index],
+            bookPrice: prices[index],
+            storeIcon: packIcons[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const ListSeparator();
+      },
+      itemCount: stores.length,
     );
   }
 }
