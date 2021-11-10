@@ -63,7 +63,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
                         setState(() {
                           widget.setScreen(false, true);
                         });
-                        print(_value);
+                        print(_value); // Temporary
                         Navigator.pop(context, 'SUCESSFUL');
                       }
                     },

@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setScreen: widget.setScreen,
                       );
                     });
-                print(result);
+                print(result); // Temporary
               },
               icon: const Icon(Icons.attach_money),
               iconSize: 25,
@@ -54,6 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         // Renders the list of books on the home page
-        body: const BookList(numItems: 5));
+        body: const BookList());
   }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:library_app/models/book.dart';
 
 // Each home page list item
 class BookListItem extends StatefulWidget {
-  final String title, author;
+  final List<Book> book;
+  final int index;
 
-  const BookListItem({Key? key, required this.title, required this.author})
+  const BookListItem({Key? key, required this.book, required this.index})
       : super(key: key);
   @override
   // Initializes the state of the widget
@@ -45,7 +47,7 @@ class _BookListItemState extends State<BookListItem> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.title,
+                      widget.book[widget.index].title,
                       maxLines: 1,
                       // How to handle text overflow - want to change to scroll element
                       overflow: TextOverflow.ellipsis,
@@ -58,7 +60,7 @@ class _BookListItemState extends State<BookListItem> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.author,
+                      widget.book[widget.index].author,
                       maxLines: 1,
                       // How to handle text overflow - want to change to scroll element
                       overflow: TextOverflow.ellipsis,
@@ -79,7 +81,7 @@ class _BookListItemState extends State<BookListItem> {
                   // Picture icon to request image from image service
                   child: IconButton(
                       onPressed: () => setState(() {
-                            setImage = 'images/The_Hobbit_1.jpg';
+                            print(widget.book[widget.index]);
                           }),
                       icon: const Icon(
                         Icons.photo_rounded,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'book_list_item.dart';
 import 'list_separator.dart';
+import 'package:library_app/models/book.dart';
 
 // List of books for the home page
 class BookList extends StatefulWidget {
-  final int numItems;
-  const BookList({Key? key, required this.numItems}) : super(key: key);
+  //final int numItems;
+  //, required this.numItems
+  const BookList({Key? key}) : super(key: key);
 
   @override
   // Initializes the state of the book list
@@ -33,10 +35,15 @@ class _BookListState extends State<BookList> {
   Widget build(BuildContext context) {
     // Renders the list of books on the home page
     return ListView.separated(
-      itemCount: widget.numItems,
+      itemCount: titleList.length,
       // Adds each list item to the list
       itemBuilder: (BuildContext context, int index) {
-        return BookListItem(title: titleList[index], author: authorList[index]);
+        return BookListItem(
+            book: List.generate(
+                titleList.length,
+                (index) =>
+                    Book(title: titleList[index], author: authorList[index])),
+            index: index);
       },
       // Adds a separator line between each list item
       separatorBuilder: (BuildContext context, int index) {
