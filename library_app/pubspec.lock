@@ -75,7 +75,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -89,7 +89,7 @@ packages:
     source: hosted
     version: "4.0.0"
   line_awesome_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: line_awesome_flutter
       url: "https://pub.dartlang.org"

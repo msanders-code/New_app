@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:library_app/models/book.dart';
+import 'dart:convert';
+//import 'dart:io';
+import 'package:http/http.dart' as http;
 
 // Each home page list item
 class BookListItem extends StatefulWidget {
@@ -15,7 +18,9 @@ class BookListItem extends StatefulWidget {
 }
 
 class _BookListItemState extends State<BookListItem> {
-  String setImage = 'images/noImage.jpg'; // no-image placeholder image
+  String setImage =
+      'https://th.bing.com/th/id/R.855e8ca01684f0d61e302ba09a177bfd?rik=TbKuqNR1U%2bV6Iw&riu=http%3a%2f%2ffremontgurdwara.org%2fwp-content%2fuploads%2f2020%2f06%2fno-image-icon-2.png&ehk=piUctuaeByVRg5s2YCzOsXApik4AfjUmmzMKA1cPKEs%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'; // no-image placeholder image
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,8 +34,8 @@ class _BookListItemState extends State<BookListItem> {
             SizedBox(
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: Image(
-                  image: AssetImage(setImage),
+                child: Image.network(
+                  setImage,
                   width: 125,
                   height: 130,
                 ),
@@ -80,9 +85,25 @@ class _BookListItemState extends State<BookListItem> {
                   alignment: Alignment.topRight,
                   // Picture icon to request image from image service
                   child: IconButton(
-                      onPressed: () => setState(() {
-                            print(widget.book[widget.index]);
-                          }),
+                      onPressed: () async {
+                        // Creates an object with data to turn into JSON string
+                        Map<String, String> data = {
+                          'words': 'novel' '${widget.book[widget.index].title}'
+                        };
+                        // Turns data into JSON string
+                        var searchTerms = jsonEncode(data);
+                        // Makes a POST request to the image service
+                        Uri url = Uri.parse('http://10.0.2.2:3000/postmethod');
+                        var response = await http.post(url,
+                            body: jsonEncode(searchTerms),
+                            headers: {'content-type': 'application/json'});
+                        print(response.body);
+                        /*
+                        setState(() {
+                          setImage = response.body;
+                        });
+                        */
+                      },
                       icon: const Icon(
                         Icons.photo_rounded,
                         color: Colors.pinkAccent,

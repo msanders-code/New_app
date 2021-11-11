@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'list_separator.dart';
 import 'price_tile.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 // Retailer list with prices.
 class PriceList extends StatefulWidget {
@@ -18,12 +17,18 @@ class _PriceListState extends State<PriceList> {
     text: '',
   );
   */
-  List<String> stores = ['amazon.com', 'audible.com'];
-  List<double> prices = [0.00, 0.00];
-  List<IconData> packIcons = [
-    LineAwesomeIcons.amazon,
-    LineAwesomeIcons.audible
+  List<String> stores = [
+    'Amazon.com',
+    'SecondSale',
+    'Biblio.com',
+    'AbeBooks',
+    'eBay',
+    'Alibris',
+    'ValoreBooks.com',
+    'Blackwell',
+    'Booksrun'
   ];
+  List<double> prices = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00];
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +37,9 @@ class _PriceListState extends State<PriceList> {
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return PriceListTile(
-            storeTitle: stores[index],
-            bookPrice: prices[index],
-            storeIcon: packIcons[index]);
+          storeTitle: stores[index],
+          bookPrice: prices[index],
+        );
       },
       separatorBuilder: (BuildContext context, int index) {
         return const ListSeparator();
