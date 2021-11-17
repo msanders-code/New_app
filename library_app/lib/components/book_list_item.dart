@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:library_app/models/book.dart';
 import 'dart:convert';
-//import 'dart:io';
 import 'package:http/http.dart' as http;
 
 // Each home page list item
@@ -10,14 +9,20 @@ class BookListItem extends StatefulWidget {
   final List<Book> book;
   final int index;
 
-  const BookListItem({Key? key, required this.book, required this.index})
-      : super(key: key);
+  const BookListItem({
+    Key? key,
+    required this.book,
+    required this.index,
+  }) : super(key: key);
   @override
   // Initializes the state of the widget
   State<BookListItem> createState() => _BookListItemState();
 }
 
 class _BookListItemState extends State<BookListItem> {
+  int stackIndex = 0;
+
+  // Image variable initilized with a no-image placeholder
   String setImage =
       'https://th.bing.com/th/id/R.855e8ca01684f0d61e302ba09a177bfd?rik=TbKuqNR1U%2bV6Iw&riu=http%3a%2f%2ffremontgurdwara.org%2fwp-content%2fuploads%2f2020%2f06%2fno-image-icon-2.png&ehk=piUctuaeByVRg5s2YCzOsXApik4AfjUmmzMKA1cPKEs%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'; // no-image placeholder image
 
@@ -38,6 +43,7 @@ class _BookListItemState extends State<BookListItem> {
                   setImage,
                   width: 125,
                   height: 130,
+                  scale: 0.8,
                 ),
               ),
               width: 120,
@@ -86,9 +92,10 @@ class _BookListItemState extends State<BookListItem> {
                   // Picture icon to request image from image service
                   child: IconButton(
                       onPressed: () async {
-                        // Creates an object with data to turn into JSON string
+                        // Creates an object with data to turn into JSON string for searching
                         Map<String, String> data = {
-                          'words': 'novel' '${widget.book[widget.index].title}'
+                          'words': 'book '
+                              '${widget.book[widget.index].title.toLowerCase()}',
                         };
                         // Turns data into JSON string
                         var searchTerms = jsonEncode(data);
@@ -97,12 +104,22 @@ class _BookListItemState extends State<BookListItem> {
                         var response = await http.post(url,
                             body: jsonEncode(searchTerms),
                             headers: {'content-type': 'application/json'});
-                        print(response.body);
-                        /*
-                        setState(() {
-                          setImage = response.body;
-                        });
-                        */
+                        String newImage = response.body;
+
+                        // If image url is not valid, resend request
+                        if (newImage == '/sa/simg/Flag_Feedback.png') {
+                          var response = await http.post(url,
+                              body: jsonEncode(searchTerms),
+                              headers: {'content-type': 'application/json'});
+                          String newImage = response.body;
+                          setState(() {
+                            setImage = newImage;
+                          });
+                        } else {
+                          setState(() {
+                            setImage = newImage;
+                          });
+                        }
                       },
                       icon: const Icon(
                         Icons.photo_rounded,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
 import 'dart:convert';
 
 // Book information entry form
@@ -71,39 +72,35 @@ class _BookInfoFormState extends State<BookInfoForm> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                // Submit button - prints the entered values to console for now
+                // Submit button - makes a network request for price info
                 OutlinedButton(
                     onPressed: () async {
                       if (_titleFormFieldKey.currentState!.validate() &&
                           _authorFormFieldKey.currentState!.validate()) {
-                        setState(() {
-                          widget.setScreen(false, true);
-                        });
-                        Navigator.pop(context, 'SUCESSFUL');
+                        // Sends an HTTP request to the price finding service
                         try {
                           var url = Uri.parse(
                               'http://10.0.2.2:5000/?title=${_value['title']}&author=${_value['author']}');
                           var response = await client.get(url);
-                          print(response.body.substring(129));
-                          // Creates a list object from a json string
 
-                          // Creates a list of lists of sellers and prices
-                          /*
-                          for (String retailer in sellers) {
-                            info.add(retailer);
-                            for (int index = 0; index < data.length; index++) {
-                              if (retailer == data[index]['seller'] &&
-                                  info.length < 2) {
-                                info.add(data[index]['price']);
-                              }
-                            }
-                            compareInfo.add(info);
-                            info.clear();
+                          // Parses the HTML page and creates a dart object with the data
+                          if (response.statusCode == 200) {
+                            var document = parse(response.body);
+                            dynamic data = jsonDecode(document
+                                .getElementsByTagName('p')[0]
+                                .innerHtml);
+                          } else {
+                            throw Exception();
                           }
-                          print(compareInfo); // Temporary
-                          */
                         } finally {
                           client.close();
+
+                          // Navigates to the price listing screen
+                          setState(() {
+                            widget.setScreen(false, true);
+                          });
+
+                          Navigator.pop(context, 'SUCESSFUL');
                         }
                       }
                     },
