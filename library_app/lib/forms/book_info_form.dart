@@ -29,8 +29,6 @@ class _BookInfoFormState extends State<BookInfoForm> {
   List<List<String>> compareInfo = [];
   List<String> info = [];
 
-  // bool _notEmpty(String? value) => value != null && value.isNotEmpty;
-
   // Saves the entered values from the form
   get _value => ({
         'title': _titleFormFieldKey.currentState?.value,

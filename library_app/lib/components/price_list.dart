@@ -11,12 +11,6 @@ class PriceList extends StatefulWidget {
 }
 
 class _PriceListState extends State<PriceList> {
-  // Watches for the text input and records it
-  /*
-  final TextEditingController _controller = TextEditingController(
-    text: '',
-  );
-  */
   List<String> stores = [
     'Amazon.com',
     'SecondSale',

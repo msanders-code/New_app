@@ -13,7 +13,6 @@ class PriceSearchDialog extends StatelessWidget {
       children: <Widget>[
         SimpleDialogOption(
           child: BookInfoForm(setScreen: setScreen),
-          // onPressed: () => Navigator.pop(context),
         )
       ],
     );
