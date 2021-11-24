@@ -87,6 +87,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
                             dynamic data = jsonDecode(document
                                 .getElementsByTagName('p')[0]
                                 .innerHtml);
+                            print(data);
                           } else {
                             throw Exception();
                           }

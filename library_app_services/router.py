@@ -3,8 +3,6 @@ Combined the services from James Mejia and Jessica Dutton into one server file.
 This way I can access both services from the localhost at the same time.
 """
 
-# Author: James Mejia
-# Price Finding Service
 
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request
@@ -12,9 +10,13 @@ import requests
 import json
 from requests.api import get
 from selenium import webdriver
+from werkzeug.serving import WSGIRequestHandler
 
 app = Flask(__name__)
 
+
+# Author: James Mejia
+# Price Finding Service
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -160,5 +162,6 @@ def getImageUrl(keyword):
 
 
 if __name__ == "__main__":
+    WSGIRequestHandler.protocol_version = "HTTP/1.1"
     app.run(debug=True)
 

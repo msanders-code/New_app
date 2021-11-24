@@ -21,7 +21,7 @@ class _BookListState extends State<BookList> {
     'Harry Potter and The Chanber Of Secrets',
     'My Antonia',
     'Atlas Shrugged',
-    'Hood'
+    'The Call Of The Wild'
   ];
   // Temp author list
   List<String> authorList = [
@@ -29,7 +29,7 @@ class _BookListState extends State<BookList> {
     'J.K. Rowling',
     'Willa Cather',
     'Ayn Rand',
-    'Stephen R. Lawhead'
+    'Jack London'
   ];
   @override
   Widget build(BuildContext context) {

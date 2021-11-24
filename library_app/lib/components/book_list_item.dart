@@ -94,8 +94,9 @@ class _BookListItemState extends State<BookListItem> {
                       onPressed: () async {
                         // Creates an object with data to turn into JSON string for searching
                         Map<String, String> data = {
-                          'words': 'book '
-                              '${widget.book[widget.index].title.toLowerCase()}',
+                          'words': 'book, '
+                              '${widget.book[widget.index].title.toLowerCase()}, '
+                              'by ${widget.book[widget.index].author.toLowerCase()}',
                         };
                         // Turns data into JSON string
                         var searchTerms = jsonEncode(data);
