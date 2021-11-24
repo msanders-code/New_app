@@ -1,16 +1,6 @@
 /*
 TO DO:
 
-2.) Change app layout to integrate services
-      - Set up form for searching for prices
-      - Refactor book pricing page to just show list of prices
-      - Set the book list item photo to change based on service response
-      - Add items to book pricing page based on service response
-
-2.5.) Integrate Services
-      - Learn how to do HTTP requests and use data
-      - Learn how to set up to use localhost server
-
 3.) Work on adding in remaining functionality
       - Add book information form
       - Add delete book functionality

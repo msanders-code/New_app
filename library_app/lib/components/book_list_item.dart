@@ -100,7 +100,7 @@ class _BookListItemState extends State<BookListItem> {
                         // Turns data into JSON string
                         var searchTerms = jsonEncode(data);
                         // Makes a POST request to the image service
-                        Uri url = Uri.parse('http://10.0.2.2:3000/postmethod');
+                        Uri url = Uri.parse('http://10.0.2.2:5000/postmethod');
                         var response = await http.post(url,
                             body: jsonEncode(searchTerms),
                             headers: {'content-type': 'application/json'});
