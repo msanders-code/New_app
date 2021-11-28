@@ -4,8 +4,10 @@ import 'package:library_app/components/price_list.dart';
 // Price Comparisson Page
 class PriceComparisson extends StatefulWidget {
   final String title;
-
-  const PriceComparisson({Key? key, required this.title}) : super(key: key);
+  final Map<String, String> priceData;
+  const PriceComparisson(
+      {Key? key, required this.title, required this.priceData})
+      : super(key: key);
 
   @override
   // Initializes state of the price comparisson page
@@ -22,9 +24,9 @@ class _PriceComparissonState extends State<PriceComparisson> {
         title: Text(widget.title),
       ),
       // Will be just list of prices and the searched book info.
-      body: const Padding(
-        padding: EdgeInsets.all(15),
-        child: PriceList(),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: PriceList(priceData: widget.priceData),
       ),
     );
   }

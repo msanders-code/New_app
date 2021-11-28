@@ -4,7 +4,7 @@ import 'dart:ui';
 // Price list items
 class PriceListTile extends StatefulWidget {
   final String storeTitle;
-  final double bookPrice;
+  final String bookPrice;
 
   const PriceListTile({
     Key? key,
@@ -32,7 +32,7 @@ class _PriceListTileState extends State<PriceListTile> {
         ),
         Text(
           // Renders the price with dollars and cents
-          widget.bookPrice.toStringAsFixed(2),
+          widget.bookPrice,
           style: const TextStyle(
               color: Colors.black, fontStyle: FontStyle.italic, fontSize: 25),
         ),

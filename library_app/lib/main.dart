@@ -2,10 +2,14 @@
 TO DO:
 
 3.) Work on adding in remaining functionality
-      - Add book information form
       - Add delete book functionality
       - Add search functionality
       - Set it up to use file system for storage - maybe
+
+      - Add no image when writng new book to file
+      - Add new image to file when image search finds one
+      - Add alert dialog when delete image is pressed
+      - Delete info from file when delete dialog is confirmed
 */
 
 import 'package:flutter/material.dart';
@@ -28,6 +32,9 @@ class _MyAppState extends State<MyApp> {
   bool isHome = true;
   bool comparePrice = false;
 
+  // Variable to transfer price data to price screen
+  Map<String, String> pricing = {};
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,18 +48,20 @@ class _MyAppState extends State<MyApp> {
             MaterialPage(
               child: MyHomePage(
                 title: 'Personal Library',
-                setScreen: (homeScreen, priceScreen) {
+                setScreen: (homeScreen, priceScreen, data) {
                   setState(() {
                     isHome = homeScreen;
                     comparePrice = priceScreen;
+                    pricing = data;
                   });
                 },
               ),
             ),
             if (comparePrice == true)
-              const MaterialPage(
+              MaterialPage(
                   child: PriceComparisson(
                 title: 'Compare Book Prices',
+                priceData: pricing,
               )),
           ],
           // Tell the app what page to go back to when back button pressed
@@ -61,6 +70,7 @@ class _MyAppState extends State<MyApp> {
             if (popStatus == true) {
               comparePrice = false;
               isHome = true;
+              pricing = {};
             }
             return isHome;
           }),

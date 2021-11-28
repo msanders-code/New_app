@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/components/book_list.dart';
 import 'package:library_app/dialogs/price_search.dart';
+import 'package:library_app/dialogs/add_book.dart';
+import 'package:library_app/dialogs/search.dart';
 
 // The home page of the application.
 class MyHomePage extends StatefulWidget {
@@ -26,16 +28,27 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             // Brings up a form to add a book to the library
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.library_add_rounded),
-              iconSize: 25,
-            ),
-            // Route to price comparisson page
-            IconButton(
               onPressed: () async {
                 String result = await showDialog(
                     context: context,
                     builder: (BuildContext context) {
+                      return const AddBookDialog();
+                    });
+
+                // Write information to a file
+                print(result); // Temporary
+              },
+              icon: const Icon(Icons.library_add_rounded),
+              iconSize: 25,
+            ),
+
+            IconButton(
+              // Starts the dialog to search prices
+              onPressed: () async {
+                String result = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // Route to price comparisson page
                       return PriceSearchDialog(
                         setScreen: widget.setScreen,
                       );
@@ -47,7 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // Opens a search bar on current screen to search book list
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                String result = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const BookSearchDialog();
+                    });
+                // Read file for information, if found display info; else, print 'Not Found'
+                print(result); // Temporary
+              },
               icon: const Icon(Icons.search),
               iconSize: 25,
             )

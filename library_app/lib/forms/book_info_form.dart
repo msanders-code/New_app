@@ -26,8 +26,19 @@ class _BookInfoFormState extends State<BookInfoForm> {
     'Blackwell',
     'Booksrun'
   ];
-  List<List<String>> compareInfo = [];
-  List<String> info = [];
+
+  // Map variable to store price info from the HTTP request
+  Map<String, String> info = {
+    'Amazon.com': 'Not Found',
+    'SecondSale': 'Not Found',
+    'Biblio.com': 'Not Found',
+    'AbeBooks': 'Not Found',
+    'eBay': 'Not Found',
+    'Alibris': 'Not Found',
+    'ValoreBooks.com': 'Not Found',
+    'Blackwell': 'Not Found',
+    'Booksrun': 'Not Found'
+  };
 
   // Saves the entered values from the form
   get _value => ({
@@ -87,16 +98,28 @@ class _BookInfoFormState extends State<BookInfoForm> {
                             dynamic data = jsonDecode(document
                                 .getElementsByTagName('p')[0]
                                 .innerHtml);
-                            print(data);
+
+                            // Finds prices for every seller from the HTTP request
+                            for (final seller in sellers) {
+                              for (int index = 0;
+                                  index < data.length;
+                                  index++) {
+                                if (seller == data[index]['seller'] &&
+                                    info[seller] == 'Not Found') {
+                                  info[seller] = data[index]['price'];
+                                }
+                              }
+                            }
                           } else {
                             throw Exception();
                           }
                         } finally {
+                          print(info); // Temp
                           client.close();
 
                           // Navigates to the price listing screen
                           setState(() {
-                            widget.setScreen(false, true);
+                            widget.setScreen(false, true, info);
                           });
 
                           Navigator.pop(context, 'SUCESSFUL');
@@ -111,7 +134,6 @@ class _BookInfoFormState extends State<BookInfoForm> {
                 // Cancel button - exits the form and resets the values
                 OutlinedButton(
                     onPressed: () {
-                      //Form.of(context)?.reset(); // Resets the form fields
                       Navigator.pop(context, 'CANCEL');
                     },
                     child: Center(

@@ -4,7 +4,8 @@ import 'price_tile.dart';
 
 // Retailer list with prices.
 class PriceList extends StatefulWidget {
-  const PriceList({Key? key}) : super(key: key);
+  final Map<String, String> priceData;
+  const PriceList({Key? key, required this.priceData}) : super(key: key);
   @override
   // Initializes the price list
   State<PriceList> createState() => _PriceListState();
@@ -22,7 +23,6 @@ class _PriceListState extends State<PriceList> {
     'Blackwell',
     'Booksrun'
   ];
-  List<double> prices = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00];
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,15 @@ class _PriceListState extends State<PriceList> {
       itemBuilder: (BuildContext context, int index) {
         return PriceListTile(
           storeTitle: stores[index],
-          bookPrice: prices[index],
+
+          // Casting map value explicitly to string
+          bookPrice: '${widget.priceData[stores[index]]}',
         );
       },
       separatorBuilder: (BuildContext context, int index) {
         return const ListSeparator();
       },
-      itemCount: stores.length,
+      itemCount: widget.priceData.length,
     );
   }
 }
