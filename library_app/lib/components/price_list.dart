@@ -14,14 +14,11 @@ class PriceList extends StatefulWidget {
 class _PriceListState extends State<PriceList> {
   List<String> stores = [
     'Amazon.com',
-    'SecondSale',
     'Biblio.com',
     'AbeBooks',
     'eBay',
     'Alibris',
-    'ValoreBooks.com',
     'Blackwell',
-    'Booksrun'
   ];
 
   @override

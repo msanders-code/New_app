@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:library_app/models/book.dart';
+import 'package:library_app/dialogs/delete_book.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -106,21 +107,9 @@ class _BookListItemState extends State<BookListItem> {
                             body: jsonEncode(searchTerms),
                             headers: {'content-type': 'application/json'});
                         String newImage = response.body;
-
-                        // If image url is not valid, resend request
-                        if (newImage == '/sa/simg/Flag_Feedback.png') {
-                          var response = await http.post(url,
-                              body: jsonEncode(searchTerms),
-                              headers: {'content-type': 'application/json'});
-                          String newImage = response.body;
-                          setState(() {
-                            setImage = newImage;
-                          });
-                        } else {
-                          setState(() {
-                            setImage = newImage;
-                          });
-                        }
+                        setState(() {
+                          setImage = newImage;
+                        });
                       },
                       icon: const Icon(
                         Icons.photo_rounded,
@@ -132,7 +121,13 @@ class _BookListItemState extends State<BookListItem> {
                   alignment: Alignment.bottomRight,
                   // Trash icon to delete a book from the library
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DeleteAlert(
+                                title: widget.book[widget.index].title,
+                                author: widget.book[widget.index].author);
+                          }),
                       icon: const Icon(Icons.delete_rounded,
                           color: Colors.pinkAccent, size: 25)),
                 ),

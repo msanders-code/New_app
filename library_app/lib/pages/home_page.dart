@@ -4,7 +4,6 @@ import 'package:library_app/dialogs/price_search.dart';
 import 'package:library_app/dialogs/add_book.dart';
 import 'package:library_app/dialogs/search.dart';
 
-// The home page of the application.
 class MyHomePage extends StatefulWidget {
   final String title;
   final Function setScreen; // Variable used for navigating between pages
@@ -28,15 +27,15 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             // Brings up a form to add a book to the library
             IconButton(
+              // Write to file
               onPressed: () async {
                 String result = await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const AddBookDialog();
-                    });
-
-                // Write information to a file
-                print(result); // Temporary
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const AddBookDialog();
+                  },
+                );
+                print(result);
               },
               icon: const Icon(Icons.library_add_rounded),
               iconSize: 25,

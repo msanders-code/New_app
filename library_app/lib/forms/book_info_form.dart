@@ -17,27 +17,21 @@ class _BookInfoFormState extends State<BookInfoForm> {
   var client = http.Client();
   List<String> sellers = [
     'Amazon.com',
-    'SecondSale',
     'Biblio.com',
     'AbeBooks',
     'eBay',
     'Alibris',
-    'ValoreBooks.com',
     'Blackwell',
-    'Booksrun'
   ];
 
   // Map variable to store price info from the HTTP request
   Map<String, String> info = {
     'Amazon.com': 'Not Found',
-    'SecondSale': 'Not Found',
     'Biblio.com': 'Not Found',
     'AbeBooks': 'Not Found',
     'eBay': 'Not Found',
     'Alibris': 'Not Found',
-    'ValoreBooks.com': 'Not Found',
     'Blackwell': 'Not Found',
-    'Booksrun': 'Not Found'
   };
 
   // Saves the entered values from the form
@@ -114,7 +108,6 @@ class _BookInfoFormState extends State<BookInfoForm> {
                             throw Exception();
                           }
                         } finally {
-                          print(info); // Temp
                           client.close();
 
                           // Navigates to the price listing screen

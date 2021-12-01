@@ -7,8 +7,6 @@ import 'package:library_app/models/book.dart';
 
 // List of books for the home page
 class BookList extends StatefulWidget {
-  //final int numItems;
-  //, required this.numItems
   const BookList({Key? key}) : super(key: key);
 
   @override
