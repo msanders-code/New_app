@@ -2,21 +2,17 @@
 TO DO:
 
 3.) Work on adding in remaining functionality
-      - Add delete book functionality
       - Add search functionality
-      - Set it up to use file system for storage - maybe
-
-      - Add no image when writng new book to file
       - Add new image to file when image search finds one
-      - Add alert dialog when delete image is pressed
-      - Delete info from file when delete dialog is confirmed
 */
 
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/home_page.dart';
 import 'package:library_app/pages/price_compare_page.dart';
+import 'package:localstore/localstore.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -30,7 +26,9 @@ class MyApp extends StatefulWidget {
 // App state to enable navigation
 class _MyAppState extends State<MyApp> {
   bool isHome = true;
-  bool comparePrice = false;
+  //bool comparePrice = false;
+  Localstore db =
+      Localstore.instance; // Initializes database like local storage
 
   // Variable to transfer price data to price screen
   Map<String, String> pricing = {};
@@ -47,17 +45,16 @@ class _MyAppState extends State<MyApp> {
           pages: [
             MaterialPage(
               child: MyHomePage(
-                title: 'Personal Library',
-                setScreen: (homeScreen, priceScreen, data) {
+                storage: db,
+                setScreen: (homeScreen, data) {
                   setState(() {
                     isHome = homeScreen;
-                    comparePrice = priceScreen;
                     pricing = data;
                   });
                 },
               ),
             ),
-            if (comparePrice == true)
+            if (isHome == false)
               MaterialPage(
                   child: PriceComparisson(
                 title: 'Compare Book Prices',
@@ -68,7 +65,6 @@ class _MyAppState extends State<MyApp> {
           onPopPage: (route, result) {
             bool popStatus = route.didPop(result);
             if (popStatus == true) {
-              comparePrice = false;
               isHome = true;
               pricing = {};
             }

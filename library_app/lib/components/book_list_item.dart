@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:library_app/models/book.dart';
+//import 'package:library_app/models/book.dart';
 import 'package:library_app/dialogs/delete_book.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:localstore/localstore.dart';
 
 // Each home page list item
 class BookListItem extends StatefulWidget {
-  final List<Book> book;
+  final List<Map<String, dynamic>> book;
   final int index;
+  final Localstore storage;
+  final Function screen;
 
   const BookListItem({
     Key? key,
     required this.book,
     required this.index,
+    required this.storage,
+    required this.screen,
   }) : super(key: key);
   @override
   // Initializes the state of the widget
@@ -21,12 +26,8 @@ class BookListItem extends StatefulWidget {
 }
 
 class _BookListItemState extends State<BookListItem> {
-  int stackIndex = 0;
-
-  // Image variable initilized with a no-image placeholder
-  String setImage =
-      'https://th.bing.com/th/id/R.855e8ca01684f0d61e302ba09a177bfd?rik=TbKuqNR1U%2bV6Iw&riu=http%3a%2f%2ffremontgurdwara.org%2fwp-content%2fuploads%2f2020%2f06%2fno-image-icon-2.png&ehk=piUctuaeByVRg5s2YCzOsXApik4AfjUmmzMKA1cPKEs%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'; // no-image placeholder image
-
+  //int stackIndex = 0;
+  Map<String, String> pricing = {};
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +42,7 @@ class _BookListItemState extends State<BookListItem> {
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Image.network(
-                  setImage,
+                  widget.book[widget.index]['cover'],
                   width: 125,
                   height: 130,
                   scale: 0.8,
@@ -59,7 +60,7 @@ class _BookListItemState extends State<BookListItem> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.book[widget.index].title,
+                      widget.book[widget.index]['title'],
                       maxLines: 1,
                       // How to handle text overflow - want to change to scroll element
                       overflow: TextOverflow.ellipsis,
@@ -72,7 +73,7 @@ class _BookListItemState extends State<BookListItem> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.book[widget.index].author,
+                      widget.book[widget.index]['author'],
                       maxLines: 1,
                       // How to handle text overflow - want to change to scroll element
                       overflow: TextOverflow.ellipsis,
@@ -96,8 +97,8 @@ class _BookListItemState extends State<BookListItem> {
                         // Creates an object with data to turn into JSON string for searching
                         Map<String, String> data = {
                           'words': 'book, '
-                              '${widget.book[widget.index].title.toLowerCase()}, '
-                              'by ${widget.book[widget.index].author.toLowerCase()}',
+                              '${widget.book[widget.index]['title'].toLowerCase()}, '
+                              'by ${widget.book[widget.index]['author'].toLowerCase()}',
                         };
                         // Turns data into JSON string
                         var searchTerms = jsonEncode(data);
@@ -107,8 +108,24 @@ class _BookListItemState extends State<BookListItem> {
                             body: jsonEncode(searchTerms),
                             headers: {'content-type': 'application/json'});
                         String newImage = response.body;
+                        /*
+                        // Creates the data to overwrite the entry in storage
+                        Map<String, dynamic> newData = {
+                          'id': widget.book[widget.index]['id'],
+                          'title': widget.book[widget.index]['title'],
+                          'author': widget.book[widget.index]['author'],
+                          'cover': newImage,
+                        };
+                        */
+                        widget.book[widget.index]['cover'] = newImage;
+                        widget.storage
+                            .collection('books')
+                            .doc(widget.book[widget.index]['id'])
+                            .set(widget.book[widget.index]);
                         setState(() {
-                          setImage = newImage;
+                          // Stores the new image with the selected book in database
+                          //widget.book[widget.index]['cover'] = newImage;
+                          widget.screen(true, pricing);
                         });
                       },
                       icon: const Icon(
@@ -121,13 +138,28 @@ class _BookListItemState extends State<BookListItem> {
                   alignment: Alignment.bottomRight,
                   // Trash icon to delete a book from the library
                   child: IconButton(
-                      onPressed: () => showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return DeleteAlert(
-                                title: widget.book[widget.index].title,
-                                author: widget.book[widget.index].author);
-                          }),
+                      onPressed: () async {
+                        String choice = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return DeleteAlert(
+                                bookInfo: [
+                                  widget.book[widget.index]['title'],
+                                  widget.book[widget.index]['author'],
+                                ],
+                              );
+                            });
+                        if (choice == 'DELETE') {
+                          widget.storage
+                              .collection('books')
+                              .doc(widget.book[widget.index]['id'])
+                              .delete();
+
+                          setState(() {
+                            widget.screen(true, pricing);
+                          });
+                        }
+                      },
                       icon: const Icon(Icons.delete_rounded,
                           color: Colors.pinkAccent, size: 25)),
                 ),

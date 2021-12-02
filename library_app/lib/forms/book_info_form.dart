@@ -112,7 +112,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
 
                           // Navigates to the price listing screen
                           setState(() {
-                            widget.setScreen(false, true, info);
+                            widget.setScreen(false, info);
                           });
 
                           Navigator.pop(context, 'SUCESSFUL');

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DeleteAlert extends StatefulWidget {
-  final String title;
-  final String author;
-  const DeleteAlert({Key? key, required this.title, required this.author})
-      : super(key: key);
+  final List<String> bookInfo;
+  const DeleteAlert({Key? key, required this.bookInfo}) : super(key: key);
+
   @override
   State<DeleteAlert> createState() => _DeleteAlertState();
 }
@@ -16,7 +15,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
       title: const Text('Delete This Book?'),
 
       // Displays title and author of book to delete in dialog
-      content: Text('${widget.title}\n\nby:  ${widget.author}'),
+      content: Text('${widget.bookInfo[0]}\n\nby:  ${widget.bookInfo[1]}'),
       actions: <Widget>[
         OutlinedButton(
           onPressed: () => Navigator.pop(context, 'CANCEL'),
@@ -31,7 +30,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
           ),
         ),
         OutlinedButton(
-          onPressed: () => Navigator.pop(context, 'DELETED'),
+          onPressed: () => Navigator.pop(context, 'DELETE'),
           child: const Center(
             child: Text(
               'OK',

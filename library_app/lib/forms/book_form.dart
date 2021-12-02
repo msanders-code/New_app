@@ -57,8 +57,8 @@ class _BookFormState extends State<BookForm> {
                     onPressed: () {
                       if (_titleFormFieldKey.currentState!.validate() &&
                           _authorFormFieldKey.currentState!.validate()) {
-                        Navigator.pop(context,
-                            '${_value['title']}, ' '${_value['author']}');
+                        Navigator.pop(
+                            context, '${_value['title']},${_value['author']}');
                       }
                     },
                     child: const Center(

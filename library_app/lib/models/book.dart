@@ -2,6 +2,11 @@
 class Book {
   final String title;
   final String author;
-
-  const Book({required this.title, required this.author});
+  final String cover;
+  final String id;
+  const Book(
+      {required this.title,
+      required this.author,
+      required this.cover,
+      required this.id});
 }
