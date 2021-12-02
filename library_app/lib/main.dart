@@ -3,7 +3,6 @@ TO DO:
 
 3.) Work on adding in remaining functionality
       - Add search functionality
-      - Add new image to file when image search finds one
 */
 
 import 'package:flutter/material.dart';
