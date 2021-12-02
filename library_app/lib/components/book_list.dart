@@ -10,6 +10,7 @@ class BookList extends StatelessWidget {
   final Function screen;
   BookList({Key? key, required this.screen}) : super(key: key);
 
+  // Creates a future object to get information from local database
   final Future<List<Map<String, dynamic>>> _future = Future.sync(() async {
     final dbData = await db.collection('books').get();
     List<Map<String, dynamic>> bookData = [];
