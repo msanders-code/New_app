@@ -57,15 +57,18 @@ class _BookListItemState extends State<BookListItem> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      widget.book[widget.auxilary[0]]['title'],
-                      maxLines: 1,
-                      // How to handle text overflow - want to change to scroll element
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.black87,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                    child: ConstrainedBox(
+                      constraints:
+                          const BoxConstraints(maxHeight: 25, maxWidth: 120),
+                      child: Text(
+                        widget.book[widget.auxilary[0]]['title'],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                   Align(
@@ -120,6 +123,7 @@ class _BookListItemState extends State<BookListItem> {
                           var response = await http.post(url,
                               body: jsonEncode(searchTerms),
                               headers: {'content-type': 'application/json'});
+
                           String newImage = response.body;
                           List<String> urlParts = newImage.split('/');
 
@@ -174,7 +178,11 @@ class _BookListItemState extends State<BookListItem> {
                               .delete();
 
                           setState(() {
-                            widget.auxilary[1](true, pricing);
+                            if (widget.auxilary.length == 1) {
+                              widget.auxilary[0](true, pricing);
+                            } else {
+                              widget.auxilary[1](true, pricing);
+                            }
                           });
                         }
                       },
