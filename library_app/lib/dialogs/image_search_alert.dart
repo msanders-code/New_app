@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-// Alert to notify user of deleting a book
-class DeleteAlert extends StatelessWidget {
+// Alert to notify user of requesting cover art for a book
+class ImageSearchAlert extends StatelessWidget {
   final List<String> bookInfo;
-  const DeleteAlert({Key? key, required this.bookInfo}) : super(key: key);
+  const ImageSearchAlert({Key? key, required this.bookInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Delete This Book?'),
+      title: const Text('Replace Cover Art For This Book?'),
 
       // Displays title and author of book to delete in dialog
       content: Text('${bookInfo[0]}\n\nby:  ${bookInfo[1]}',
@@ -28,7 +28,7 @@ class DeleteAlert extends StatelessWidget {
           ),
         ),
         OutlinedButton(
-          onPressed: () => Navigator.pop(context, 'DELETE'),
+          onPressed: () => Navigator.pop(context, 'REPLACE'),
           child: const Center(
             child: Text(
               'OK',

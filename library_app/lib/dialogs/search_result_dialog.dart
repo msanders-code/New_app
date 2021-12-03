@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:library_app/forms/book_form.dart';
 
-// Dialog to search current library for specified book
+// Dialog to display results of a found book in the library
 class SearchResultDialog extends StatelessWidget {
   final Map<String, dynamic> displayInfo;
   const SearchResultDialog({Key? key, required this.displayInfo})
@@ -16,6 +15,7 @@ class SearchResultDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Displays current cover art
               Image.network(
                 displayInfo['cover'],
                 height: 130,
@@ -33,10 +33,17 @@ class SearchResultDialog extends StatelessWidget {
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 12)),
+                      fontSize: 14)),
               OutlinedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Clear')),
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'Clear',
+                  style: TextStyle(
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
+              ),
             ],
           ),
         )

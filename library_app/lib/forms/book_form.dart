@@ -66,7 +66,7 @@ class _BookFormState extends State<BookForm> {
                             style: TextStyle(
                                 color: Colors.teal,
                                 fontWeight: FontWeight.bold)))),
-                // Cancel button - exits the form
+                // Cancel button
                 OutlinedButton(
                     onPressed: () {
                       Navigator.pop(context, 'CANCEL');

@@ -4,6 +4,8 @@ import 'package:library_app/dialogs/price_search.dart';
 import 'package:library_app/dialogs/add_book.dart';
 import 'package:library_app/dialogs/search.dart';
 import 'package:library_app/dialogs/search_result_dialog.dart';
+import 'package:library_app/dialogs/no_book_search.dart';
+import 'package:library_app/dialogs/no_search_result_dialog.dart';
 import 'package:localstore/localstore.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,18 +16,14 @@ class MyHomePage extends StatefulWidget {
       : super(key: key);
 
   @override
-  // Initializes the state of the home page
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //List<Map<String, dynamic>> bookData = [];
   Map<String, String> data = {};
-  // Adds any books already stored to list to initialize main page
 
   @override
   Widget build(BuildContext context) {
-    // Returns the home page
     return Scaffold(
         appBar: AppBar(
           primary: true,
@@ -33,7 +31,6 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             // Brings up a form to add a book to the library
             IconButton(
-              // Write to file
               onPressed: () async {
                 String result = await showDialog(
                   context: context,
@@ -77,29 +74,51 @@ class _MyHomePageState extends State<MyHomePage> {
             // Opens a search bar on current screen to search book list
             IconButton(
               onPressed: () async {
-                String result = await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const BookSearchDialog();
-                    });
-                List<String> info = result.split(',');
-                // Display the searched data
-                if (result != 'CANCEL') {
-                  Map<String, dynamic>? bookData =
-                      await widget.storage.collection('books').get();
+                Map<String, dynamic>? bookData =
+                    await widget.storage.collection('books').get();
 
-                  if (bookData != null) {
+                // Display alert if book list is empty
+                if (bookData == null) {
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const NoBooks();
+                      });
+                } else {
+                  // Display dialog to enter search criteria
+                  String result = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const BookSearchDialog();
+                      });
+                  List<String> info = result.split(',');
+
+                  // Search local database for book
+                  if (result != 'CANCEL') {
                     Iterable data = bookData.values;
-
+                    Map<String, dynamic> found = {};
                     for (Map<String, dynamic> book in data) {
                       if (book['title'] == info[0] &&
                           book['author'] == info[1]) {
-                        await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SearchResultDialog(displayInfo: book);
-                            });
+                        found = book;
                       }
+                    }
+
+                    // Display the searched data if book is found
+                    if (found.isNotEmpty) {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SearchResultDialog(displayInfo: found);
+                          });
+
+                      // Display message if searched book is not found
+                    } else if (found.isEmpty) {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const NoSearchResultDialog();
+                          });
                     }
                   }
                 }

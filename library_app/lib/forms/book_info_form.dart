@@ -5,7 +5,7 @@ import 'dart:convert';
 
 // Book information entry form
 class BookInfoForm extends StatefulWidget {
-  final Function setScreen; // Variable used for navigating between pages
+  final Function setScreen;
   const BookInfoForm({Key? key, required this.setScreen}) : super(key: key);
   @override
   State<BookInfoForm> createState() => _BookInfoFormState();
@@ -75,7 +75,6 @@ class _BookInfoFormState extends State<BookInfoForm> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                // Submit button - makes a network request for price info
                 OutlinedButton(
                     onPressed: () async {
                       if (_titleFormFieldKey.currentState!.validate() &&
@@ -93,7 +92,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
                                 .getElementsByTagName('p')[0]
                                 .innerHtml);
 
-                            // Finds prices for every seller from the HTTP request
+                            // Finds prices for listed sellers from the HTTP request
                             for (final seller in sellers) {
                               for (int index = 0;
                                   index < data.length;
@@ -124,7 +123,7 @@ class _BookInfoFormState extends State<BookInfoForm> {
                             style: TextStyle(
                                 color: Colors.teal,
                                 fontWeight: FontWeight.bold)))),
-                // Cancel button - exits the form and resets the values
+                // Exits the form
                 OutlinedButton(
                     onPressed: () {
                       Navigator.pop(context, 'CANCEL');

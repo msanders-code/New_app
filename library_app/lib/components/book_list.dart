@@ -3,7 +3,7 @@ import 'book_list_item.dart';
 import 'list_separator.dart';
 import 'package:localstore/localstore.dart';
 
-Localstore db = Localstore.instance;
+Localstore db = Localstore.instance; // Instance of the database
 
 // Future list of books for the home page
 class BookList extends StatelessWidget {
@@ -44,9 +44,8 @@ class BookList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return BookListItem(
                 book: data,
-                index: index,
+                auxilary: [index, screen],
                 storage: db,
-                screen: screen,
               );
             },
             // Adds a separator line between each list item

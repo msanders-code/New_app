@@ -1,10 +1,3 @@
-/*
-TO DO:
-
-3.) Work on adding in remaining functionality
-      - Add search functionality
-*/
-
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/home_page.dart';
 import 'package:library_app/pages/price_compare_page.dart';
@@ -25,7 +18,6 @@ class MyApp extends StatefulWidget {
 // App state to enable navigation
 class _MyAppState extends State<MyApp> {
   bool isHome = true;
-  //bool comparePrice = false;
   Localstore db =
       Localstore.instance; // Initializes database like local storage
 
