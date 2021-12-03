@@ -3,6 +3,7 @@ import 'package:library_app/components/book_list.dart';
 import 'package:library_app/dialogs/price_search.dart';
 import 'package:library_app/dialogs/add_book.dart';
 import 'package:library_app/dialogs/search.dart';
+import 'package:library_app/dialogs/search_result_dialog.dart';
 import 'package:localstore/localstore.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -81,8 +82,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (BuildContext context) {
                       return const BookSearchDialog();
                     });
-                // Read file for information, if found display info; else, print 'Not Found'
-                print(result); // Temporary
+                List<String> info = result.split(',');
+                // Display the searched data
+                if (result != 'CANCEL') {
+                  Map<String, dynamic>? bookData =
+                      await widget.storage.collection('books').get();
+
+                  if (bookData != null) {
+                    Iterable data = bookData.values;
+
+                    for (Map<String, dynamic> book in data) {
+                      if (book['title'] == info[0] &&
+                          book['author'] == info[1]) {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SearchResultDialog(displayInfo: book);
+                            });
+                      }
+                    }
+                  }
+                }
               },
               icon: const Icon(Icons.search),
               iconSize: 25,
